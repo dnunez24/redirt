@@ -41,10 +41,18 @@ function testRedirect(redirect) {
     var responsePath = '';
 
     if (response.headers.location) {
-      responsePath = url.parse(responseLocation.toString()).path;
+      var responseUrlParsed = url.parse(responseLocation.toString());
+      responsePath = [
+        responseUrlParsed.path,
+        responseUrlParsed.query,
+        responseUrlParsed.hash
+      ].join('');
     }
 
-    console.log(statusColor(response.statusCode) + ' ' + oldPath + ' => ' + responsePath);
+    console.log(
+      statusColor(response.statusCode) + ' ' +
+      oldPath + ' => ' + matchColor(newPath, responsePath)
+    );
     response.read();
   });
 
@@ -56,6 +64,10 @@ function testRedirect(redirect) {
 function statusColor(code) {
   var codeStr = code.toString();
   return codeStr.match(/^[45].*/) ? colors.red(code) : colors.green(code);
+}
+
+function matchColor(expected, actual) {
+  return expected === actual ? colors.green(actual) : colors.red(actual);
 }
 
 inputFile.pipe(csvParser);
