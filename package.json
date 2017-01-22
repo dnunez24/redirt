@@ -1,0 +1,29 @@
+{
+  "name": "redirt",
+  "version": "0.1.0",
+  "description": "URL redirect testing tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnunez24/redirt.git"
+  },
+  "keywords": [
+    "url",
+    "redirect",
+    "rewrite",
+    "test"
+  ],
+  "author": "David Nuñez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dnunez24/redirt/issues"
+  },
+  "homepage": "https://github.com/dnunez24/redirt#readme",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "csv": "^1.1.0"
+  }
+}
