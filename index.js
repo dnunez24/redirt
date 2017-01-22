@@ -39,9 +39,10 @@ function testRedirect(redirect) {
   httpRequest.on('response', function(response) {
     var responseLocation = response.headers.location;
     var responsePath = '';
+    var responseUrlParsed;
 
-    if (response.headers.location) {
-      var responseUrlParsed = url.parse(responseLocation.toString());
+    if (responseLocation) {
+      responseUrlParsed = url.parse(responseLocation.toString());
       responsePath = [
         responseUrlParsed.path,
         responseUrlParsed.query,
