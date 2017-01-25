@@ -49,10 +49,11 @@ function testRedirect(redirect) {
       ].join('');
     }
 
-    console.log(
-      statusColor(response.statusCode) + ' ' +
-      oldPath + ' => ' + matchColor(newPath, responsePath)
-    );
+    console.log(statusColor(response.statusCode) + ' ' + oldPath);
+    if (!response.statusCode.toString().match(/^[45].*/)) {
+      console.log('\tEXPECTED: ' + newPath);
+      console.log('\tACTUAL: ' + matchColor(newPath, responsePath));
+    }
     response.read();
   });
 
@@ -67,7 +68,7 @@ function statusColor(code) {
 }
 
 function matchColor(expected, actual) {
-  return expected === actual ? colors.green(actual) : colors.red(actual);
+  return expected === actual ? colors.green(actual) : colors.yellow(actual);
 }
 
 inputFile.pipe(csvParser);
