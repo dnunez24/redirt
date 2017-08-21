@@ -2,9 +2,11 @@ import csv from 'csv'
 import fs from 'fs'
 import test from './test'
 
-const run = (host, path) => {
+export default (host, path) => {
   const inputFile = fs.createReadStream(path)
-  const csvParser = csv.parse({ skip_empty_lines: true })
+  const csvParser = csv.parse({
+    skip_empty_lines: true
+  })
 
   csvParser.on('readable', () => {
     const redirect = csvParser.read()
@@ -15,8 +17,5 @@ const run = (host, path) => {
   })
 
   csvParser.on('error', err => console.error(err.message))
-  
   inputFile.pipe(csvParser)
 }
-
-export default run
