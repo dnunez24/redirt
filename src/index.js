@@ -9,7 +9,7 @@ export default (host, path) => {
   })
 
   parser.on('readable', () => {
-    const redirect = parser.read()
+    const assertion = parser.read()
 
     if (assertion) {
       check(host, assertion)
