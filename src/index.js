@@ -1,21 +1,21 @@
 import csv from 'csv'
 import fs from 'fs'
-import test from './test'
+import check from './check'
 
 export default (host, path) => {
-  const inputFile = fs.createReadStream(path)
-  const csvParser = csv.parse({
-    skip_empty_lines: true
+  const file = fs.createReadStream(path)
+  const parser = csv.parse({
+    skip_empty_lines: true,
   })
 
-  csvParser.on('readable', () => {
-    const redirect = csvParser.read()
+  parser.on('readable', () => {
+    const redirect = parser.read()
 
-    if (redirect) {
-      test(host, redirect)
+    if (assertion) {
+      check(host, assertion)
     }
   })
 
-  csvParser.on('error', err => console.error(err.message))
-  inputFile.pipe(csvParser)
+  parser.on('error', err => console.error(err.message))
+  file.pipe(parser)
 }
