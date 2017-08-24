@@ -30,7 +30,7 @@
   "dependencies": {
     "chalk": "^2.1.0",
     "commander": "^2.11.0",
-    "csv": "^1.1.0"
+    "csv-parse": "^1.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -47,6 +47,6 @@
     ]
   },
   "bin": {
-    "redirt": "dist/bin/index.js"
+    "redirt": "dist/bin/redirt.js"
   }
 }

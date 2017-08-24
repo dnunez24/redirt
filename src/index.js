@@ -1,21 +1,28 @@
-import csv from 'csv'
-import fs from 'fs'
-import check from './check'
+import verify from './verify'
+import format from './format'
+import {
+  Transform
+} from 'stream'
 
-export default (host, path) => {
-  const file = fs.createReadStream(path)
-  const parser = csv.parse({
-    skip_empty_lines: true,
-  })
+class Tester extends Transform {
+  constructor(parser, options) {
+    super(options)
+    this.baseUrl = options.baseUrl
+    this.parser = parser
+  }
 
-  parser.on('readable', () => {
-    const assertion = parser.read()
+  _transform(chunk, encoding, callback) {
+    this.parser.on('data', async assertion => {
+      if (assertion) {
+        const result = await verify(this.baseUrl, assertion)
+        const formatted = format(result)
+        this.emit('data', formatted)
+      }
+    })
 
-    if (assertion) {
-      check(host, assertion)
-    }
-  })
-
-  parser.on('error', err => console.error(err.message))
-  file.pipe(parser)
+    this.parser.on('error', err => this.emit('error', err))
+    this.parser.write(chunk)
+  }
 }
+
+export default (parser, options) => new Tester(parser, options)

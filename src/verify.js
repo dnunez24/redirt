@@ -1,4 +1,3 @@
-import report from './report'
 import request from './request'
 import url from 'url'
 
@@ -8,21 +7,21 @@ const extractAssertion = (assertion) => ({
   expectedCode: assertion[2],
 })
 
-export default async (host, assertion) => {
+export default async (baseUrl, assertion) => {
   const {
     originalPath,
     expectedPath,
     expectedCode,
   } = extractAssertion(assertion)
-  const protocol = 'http://'
-  const originalUrl = protocol + host + originalPath
+  // TODO: clean trailing and leading slashes
+  const originalUrl = baseUrl + originalPath
   const { actualCode, actualPath } = await request(originalUrl)
   
-  report({
+  return {
     originalPath,
     expectedPath,
     actualPath,
     expectedCode,
     actualCode,
-  })
+  }
 }

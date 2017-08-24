@@ -26,15 +26,20 @@ export default ({
   expectedCode,
   actualCode,
 }) => {
+  const output = []
   const pass = isPassing({ expectedPath, actualPath, expectedCode, actualCode })
   const passFail = passFailIndicator(pass)
   const assert = `${passFail} ${expectedCode}\t${originalPath}\t${expectedPath}`
-  console.log(assert)
+  output.push(assert)
   
   if (!pass) {
     const formattedPath = diff(expectedPath, actualPath)
     const formattedCode = diff(expectedCode, actualCode)
     const actual = `       ${formattedCode}\t${originalPath}\t${formattedPath}`
-    console.log(actual)
+    output.push(actual)
   }
+  
+  output.push('')
+  
+  return output.join('\n')
 }
